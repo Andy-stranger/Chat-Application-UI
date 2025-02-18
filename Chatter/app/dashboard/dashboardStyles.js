@@ -35,7 +35,11 @@ const styles = StyleSheet.create(
             width: "95%",
             marginTop: 10,
             height: 70,
-        }
+        },
+        pressedItem: {
+            backgroundColor: "#d1d1d1",
+            transform: [{ scale: 0.95 }],
+        },
     }
 );
 

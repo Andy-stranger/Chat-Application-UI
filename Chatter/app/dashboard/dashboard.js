@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, TouchableOpacity, Text, FlatList } from "react-native";
+import { View, TextInput, TouchableOpacity, Text, FlatList, Pressable } from "react-native";
 import styles from "./dashboardStyles";
 
 const DashboardPage = () => {
     const [allConnections, setAllConnections] = useState([]);
     const [filteredConnections, setFilteredConnections] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const [pressedItem, setPressedItem] = useState(null);
     //set dummy data for connections
     
     useEffect(() => {
@@ -59,11 +60,23 @@ const DashboardPage = () => {
                     contentContainerStyle={{justifyContent: "center"}}
                     data={filteredConnections}
                     renderItem={({item}) => {
+                        const isPressed = pressedItem === item.name;
                         return(
-                            <View style={styles.connectionListItem}>
-                                <Text style={{fontSize : 20}}>{item.name}</Text>
-                                <Text>{item.status}</Text>
-                            </View>
+                            <Pressable
+                                onPressIn={() => setPressedItem(item.name)}
+                                onPressOut={() => setPressedItem(null)}
+                                style={({pressed}) => [
+                                    styles.connectionListItem,
+                                    isPressed && styles.pressedItem,
+                                    pressed && styles.pressedItem
+                                ]}
+                            >
+                                <View >
+                                    <Text style={{fontSize : 20}}>{item.name}</Text>
+                                    <Text>{item.status}</Text>
+                                </View>
+                            </Pressable>
+                            
                         )
                     }}
                 />
